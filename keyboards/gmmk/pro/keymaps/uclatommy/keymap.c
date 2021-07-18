@@ -124,7 +124,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 
 #ifdef RGB_MATRIX_ENABLE
-    // Capslock, Scroll lock and Numlock  indicator on Left side lights.
+    // Capslock, Scroll lock indicator on Left side lights.
     void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
             rgb_matrix_set_color(LED_L1, RGB_GREEN);
@@ -136,6 +136,11 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             rgb_matrix_set_color(LED_L4, RGB_WHITE);
 						rgb_matrix_set_color(LED_CAPS, RGB_WHITE);
         }
+				if(!IS_HOST_LED_ON(USB_LED_NUM_LOCK)){
+					// Turn on numlock
+					register_code(KC_NUMLOCK);
+      		unregister_code(KC_NUMLOCK);
+				}
         switch(get_highest_layer(layer_state)){  // special handling per layer
         case 2:  // on Fn layer select what the encoder does when pressed
 						for (uint8_t i=0; i<sizeof(LED_LIST_NUMPAD)/sizeof(LED_LIST_NUMPAD[0]); i++) {
