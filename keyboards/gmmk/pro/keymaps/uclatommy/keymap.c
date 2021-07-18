@@ -85,9 +85,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 		case 2:
 			if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)){
 				if (clockwise) {
-					tap_code(KC_WH_D);
+					tap_code(KC_WH_R);
 				} else {
-					tap_code(KC_WH_U);
+					tap_code(KC_WH_L);
 				}
 			}else{
 				if (clockwise) {
@@ -107,9 +107,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 		default:
 			if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)){
 				if (clockwise) {
-					tap_code(KC_WH_R);
+					tap_code(KC_WH_D);
 				} else {
-					tap_code(KC_WH_L);
+					tap_code(KC_WH_U);
 				}
 			}else{
 				if (clockwise) {
