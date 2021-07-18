@@ -114,10 +114,6 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             rgb_matrix_set_color(LED_L1, RGB_GREEN);
             rgb_matrix_set_color(LED_L8, RGB_GREEN);
         }
-        if (!IS_HOST_LED_ON(USB_LED_NUM_LOCK)) {   // on if NUM lock is OFF
-            rgb_matrix_set_color(LED_L3, RGB_MAGENTA);
-            rgb_matrix_set_color(LED_L4, RGB_MAGENTA);
-        }
         if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK)) {
             rgb_matrix_set_color(LED_L5, RGB_WHITE);
             rgb_matrix_set_color(LED_L6, RGB_WHITE);
