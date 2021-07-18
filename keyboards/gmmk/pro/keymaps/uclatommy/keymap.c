@@ -83,10 +83,18 @@ uint8_t selected_layer = 0;
 bool encoder_update_user(uint8_t index, bool clockwise) {
   switch(get_highest_layer(layer_state)){
 		case 2:
-			if (clockwise) {
-				tap_code(KC_RIGHT);
-			} else {
-				tap_code(KC_LEFT);
+			if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)){
+				if (clockwise) {
+					tap_code(KC_WH_R);
+				} else {
+					tap_code(KC_WH_L);
+				}
+			}else{
+				if (clockwise) {
+					tap_code(KC_RIGHT);
+				} else {
+					tap_code(KC_LEFT);
+				}
 			}
 			break;
 		case 1:
@@ -97,12 +105,20 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 			}
 			break;
 		default:
-			if (clockwise) {
-				tap_code(KC_DOWN);
-			} else {
-				tap_code(KC_UP);
+			if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)){
+				if (clockwise) {
+					tap_code(KC_WH_D);
+				} else {
+					tap_code(KC_WH_U);
+				}
+			}else{
+				if (clockwise) {
+					tap_code(KC_DOWN);
+				} else {
+					tap_code(KC_UP);
+				}
+			}
 			break;
-		}
 	}
 	return true;
 }
