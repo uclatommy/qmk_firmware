@@ -15,6 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
+#include "rgb_matrix_map.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -63,20 +64,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          KC_MUTE,
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL,           _______,
       _______, _______, KC_UP,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,            _______,
-      _______, KC_LEFT, KC_DOWN, KC_RIGHT, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______,
+      _______, KC_LEFT, KC_DOWN, KC_RIGHT,_______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______,
       _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
       _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______, _______
   ),
 	[2] = LAYOUT(
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          KC_SLCK,
-      _______, RGB_M_P, RGB_M_B, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL,           RGB_HUI,
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,            RGB_MOD,
-      _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______,         _______,          RGB_RMOD,
-      _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, RGB_TOG,
+      _______, _______, _______, _______, _______, _______, _______, KC_P7,   KC_P8,   KC_P9,   _______, _______, _______, KC_DEL,           RGB_HUI,
+      _______, _______, _______, _______, _______, _______, _______, KC_P4,   KC_P5,   KC_P6,   _______, _______, _______, RESET,            RGB_MOD,
+      _______, _______, _______, _______, _______, _______, _______, KC_P1,   KC_P2,   KC_P3,   _______, _______,          _______,          RGB_RMOD,
+      _______,          _______, _______, _______, _______, _______, _______, KC_P0,   _______, KC_PDOT, _______,          _______, _______, RGB_TOG,
       _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______, _______
   ),
 };
 
+uint8_t selected_layer = 0;
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
   switch(get_highest_layer(layer_state)){
@@ -105,6 +107,58 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 	return true;
 }
 
+#ifdef RGB_MATRIX_ENABLE
+    // Capslock, Scroll lock and Numlock  indicator on Left side lights.
+    void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+        if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
+            rgb_matrix_set_color(LED_L1, RGB_GREEN);
+            rgb_matrix_set_color(LED_L8, RGB_GREEN);
+        }
+        if (!IS_HOST_LED_ON(USB_LED_NUM_LOCK)) {   // on if NUM lock is OFF
+            rgb_matrix_set_color(LED_L3, RGB_MAGENTA);
+            rgb_matrix_set_color(LED_L4, RGB_MAGENTA);
+        }
+        if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK)) {
+            rgb_matrix_set_color(LED_L5, RGB_WHITE);
+            rgb_matrix_set_color(LED_L6, RGB_WHITE);
+            rgb_matrix_set_color(LED_L4, RGB_WHITE);
+						rgb_matrix_set_color(LED_CAPS, RGB_WHITE);
+        }
+        switch(get_highest_layer(layer_state)){  // special handling per layer
+        case 2:  // on Fn layer select what the encoder does when pressed
+						for (uint8_t i=0; i<sizeof(LED_LIST_NUMPAD)/sizeof(LED_LIST_NUMPAD[0]); i++) {
+								rgb_matrix_set_color(LED_LIST_NUMPAD[i], RGB_MAGENTA);
+						}
+						rgb_matrix_set_color(LED_R2, RGB_WHITE);
+            rgb_matrix_set_color(LED_R3, RGB_WHITE);
+            rgb_matrix_set_color(LED_R4, RGB_WHITE);
+            rgb_matrix_set_color(LED_LALT, RGB_WHITE); //FN key
+            break;
+        case 1:
+						for (uint8_t i=0; i<sizeof(LED_LIST_WASD)/sizeof(LED_LIST_WASD[0]); i++) {
+								rgb_matrix_set_color(LED_LIST_WASD[i], RGB_MAGENTA);
+						}
+            rgb_matrix_set_color(LED_R4, RGB_WHITE);
+            rgb_matrix_set_color(LED_R5, RGB_WHITE);
+            rgb_matrix_set_color(LED_R6, RGB_WHITE);
+						rgb_matrix_set_color(LED_FN, RGB_WHITE);
+            break;
+        default:
+            break;
+        }
+    }
+
+    void suspend_power_down_user(void) {
+        rgb_matrix_set_suspend_state(true);
+    }
+
+    void suspend_wakeup_init_user(void) {
+        rgb_matrix_set_suspend_state(false);
+    }
+#endif
+
 void keyboard_post_init_user(void){
-	rgblight_sethsv(HSV_ROSEGOLD);
+	#ifdef RGB_MATRIX_ENABLE
+		rgblight_sethsv(HSV_ROSEGOLD);
+	#endif
 }
