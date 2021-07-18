@@ -34,6 +34,7 @@
 /*                            SET RGB List                            */
 #define rgblight_setrgb_white() rgblight_setrgb(RGB_WHITE)
 #define rgblight_setrgb_red() rgblight_setrgb(RGB_RED)
+#define rgblight_setrgb_rosegold() rgblight_setrgb(RGB_ROSEGOLD)
 #define rgblight_setrgb_coral() rgblight_setrgb(RGB_CORAL)
 #define rgblight_setrgb_orange() rgblight_setrgb(RGB_ORANGE)
 #define rgblight_setrgb_goldenrod() rgblight_setrgb(RGB_GOLDENROD)
@@ -54,6 +55,7 @@
 /*                            SET RGB List                            */
 #define rgblight_setrgb_white_at(at) rgblight_setrgb_at(RGB_WHITE, at)
 #define rgblight_setrgb_red_at(at) rgblight_setrgb_at(RGB_RED, at)
+#define rgblight_setrgb_rosegold_at(at) rgblight_setrgb_at(RGB_ROSEGOLD, at)
 #define rgblight_setrgb_coral_at(at) rgblight_setrgb_at(RGB_CORAL, at)
 #define rgblight_setrgb_orange_at(at) rgblight_setrgb_at(RGB_ORANGE at)
 #define rgblight_setrgb_goldenrod_at(at) rgblight_setrgb_at(RGB_GOLDENROD, at)
@@ -74,6 +76,7 @@
 /*                            SET HSV List                            */
 #define rgblight_sethsv_white() rgblight_sethsv(HSV_WHITE)
 #define rgblight_sethsv_red() rgblight_sethsv(HSV_RED)
+#define rgblight_sethsv_rosegold() rgblight_sethsv(HSV_ROSEGOLD)
 #define rgblight_sethsv_coral() rgblight_sethsv(HSV_CORAL)
 #define rgblight_sethsv_orange() rgblight_sethsv(HSV_ORANGE)
 #define rgblight_sethsv_goldenrod() rgblight_sethsv(HSV_GOLDENROD)
@@ -98,6 +101,7 @@
 /*   want to use rgblight_mode_noeeprom(x) instead.                   */
 #define rgblight_sethsv_noeeprom_white() rgblight_sethsv_noeeprom(HSV_WHITE)
 #define rgblight_sethsv_noeeprom_red() rgblight_sethsv_noeeprom(HSV_RED)
+#define rgblight_sethsv_noeeprom_rosegold() rgblight_sethsv_noeeprom(HSV_ROSEGOLD)
 #define rgblight_sethsv_noeeprom_coral() rgblight_sethsv_noeeprom(HSV_CORAL)
 #define rgblight_sethsv_noeeprom_orange() rgblight_sethsv_noeeprom(HSV_ORANGE)
 #define rgblight_sethsv_noeeprom_goldenrod() rgblight_sethsv_noeeprom(HSV_GOLDENROD)
@@ -118,6 +122,7 @@
 /*                            SET HSV List                            */
 #define rgblight_sethsv_white_at(at) rgblight_sethsv_at(HSV_WHITE, at)
 #define rgblight_sethsv_red_at(at) rgblight_sethsv_at(HSV_RED, at)
+#define rgblight_sethsv_rosegold_at(at) rgblight_sethsv_at(HSV_ROSEGOLD, at)
 #define rgblight_sethsv_coral_at(at) rgblight_sethsv_at(HSV_CORAL, at)
 #define rgblight_sethsv_orange_at(at) rgblight_sethsv_at(HSV_ORANGE, at)
 #define rgblight_sethsv_goldenrod_at(at) rgblight_sethsv_at(HSV_GOLDENROD, at)
