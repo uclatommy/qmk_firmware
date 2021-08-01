@@ -59,13 +59,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB,          KC_Q,       KC_W,       KC_E,       KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,          KC_LBRC, KC_RBRC,        KC_BSLS,          KC_PGUP,
       LCTL_T(KC_CAPS), KC_A,       KC_S,       KC_D,       KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,       KC_QUOT,                 KC_ENT,           KC_PGDN,
       KC_LSFT,                     KC_Z,       KC_X,       KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,        KC_SLSH,                 KC_RSFT, KC_UP,   KC_END,
-      KC_LALT,         KC_LGUI,    MO(2),                                  KC_SPC,                               KC_RALT, MO(1),KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT),
+      KC_LALT,         KC_LGUI,    MO(2),                                  KC_SPC,                               KC_RALT,       MO(1),   KC_RCTL,        KC_LEFT, KC_DOWN, KC_RGHT),
   [1] = LAYOUT(
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          KC_MUTE,
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL,           _______,
       _______, _______, KC_UP,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,            _______,
       _______, KC_LEFT, KC_DOWN, KC_RIGHT,_______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______,
-      _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
+      _______,          _______, _______, _______, _______, _______, C(KC_C), C(KC_V), C(KC_Z), C(KC_Y), _______,          _______, _______, _______,
       _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______, _______
   ),
 	[2] = LAYOUT(
@@ -124,17 +124,22 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 
 #ifdef RGB_MATRIX_ENABLE
-    // Capslock, Scroll lock indicator on Left side lights.
+    // Capslock, Scroll lock indicator on side lights.
     void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
             rgb_matrix_set_color(LED_L1, RGB_GREEN);
             rgb_matrix_set_color(LED_L8, RGB_GREEN);
+						rgb_matrix_set_color(LED_R1, RGB_GREEN);
+            rgb_matrix_set_color(LED_R8, RGB_GREEN);
         }
         if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK)) {
             rgb_matrix_set_color(LED_L5, RGB_WHITE);
             rgb_matrix_set_color(LED_L6, RGB_WHITE);
             rgb_matrix_set_color(LED_L4, RGB_WHITE);
 						rgb_matrix_set_color(LED_CAPS, RGB_WHITE);
+						rgb_matrix_set_color(LED_R5, RGB_WHITE);
+            rgb_matrix_set_color(LED_R6, RGB_WHITE);
+            rgb_matrix_set_color(LED_R4, RGB_WHITE);
         }
 				if(!IS_HOST_LED_ON(USB_LED_NUM_LOCK)){
 					// Turn on numlock
@@ -146,6 +151,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 						for (uint8_t i=0; i<sizeof(LED_LIST_NUMPAD)/sizeof(LED_LIST_NUMPAD[0]); i++) {
 								rgb_matrix_set_color(LED_LIST_NUMPAD[i], RGB_MAGENTA);
 						}
+						rgb_matrix_set_color(LED_BSLS, RGB_RED);  //BOOTLOADER key
 						rgb_matrix_set_color(LED_R2, RGB_WHITE);
             rgb_matrix_set_color(LED_R3, RGB_WHITE);
             rgb_matrix_set_color(LED_R4, RGB_WHITE);
@@ -154,7 +160,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         case 1:
 						for (uint8_t i=0; i<sizeof(LED_LIST_WASD)/sizeof(LED_LIST_WASD[0]); i++) {
 								rgb_matrix_set_color(LED_LIST_WASD[i], RGB_MAGENTA);
+								rgb_matrix_set_color(LED_LIST_MACROS[i], RGB_BLUE);
 						}
+						rgb_matrix_set_color(LED_BSLS, RGB_RED);  //BOOTLOADER key
             rgb_matrix_set_color(LED_R4, RGB_WHITE);
             rgb_matrix_set_color(LED_R5, RGB_WHITE);
             rgb_matrix_set_color(LED_R6, RGB_WHITE);

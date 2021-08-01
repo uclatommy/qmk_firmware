@@ -125,6 +125,8 @@
 
     const uint8_t LED_LIST_WASD[] = { LED_W, LED_A, LED_S, LED_D };
 
+    const uint8_t LED_LIST_MACROS[] = { LED_N, LED_M, LED_COMM, LED_DOT };
+
     const uint8_t LED_LIST_ARROWS[] = { LED_LEFT, LED_RIGHT, LED_UP, LED_DOWN };
 
     const uint8_t LED_LIST_NUMPAD[] = {
