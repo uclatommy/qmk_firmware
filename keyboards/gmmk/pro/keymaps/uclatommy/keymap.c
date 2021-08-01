@@ -65,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL,           _______,
       _______, _______, KC_UP,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,            _______,
       _______, KC_LEFT, KC_DOWN, KC_RIGHT,_______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______,
-      _______,          _______, _______, _______, _______, _______, C(KC_C), C(KC_V), C(KC_Z), C(KC_Y), _______,          _______, _______, _______,
+      _______,          _______, _______, _______, _______, _______, C(KC_C), C(KC_V), C(KC_Z), C(KC_Y), KC_TAB,           _______, _______, _______,
       _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______, _______
   ),
 	[2] = LAYOUT(
@@ -133,13 +133,13 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             rgb_matrix_set_color(LED_R8, RGB_GREEN);
         }
         if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK)) {
-            rgb_matrix_set_color(LED_L5, RGB_WHITE);
-            rgb_matrix_set_color(LED_L6, RGB_WHITE);
-            rgb_matrix_set_color(LED_L4, RGB_WHITE);
-						rgb_matrix_set_color(LED_CAPS, RGB_WHITE);
-						rgb_matrix_set_color(LED_R5, RGB_WHITE);
-            rgb_matrix_set_color(LED_R6, RGB_WHITE);
-            rgb_matrix_set_color(LED_R4, RGB_WHITE);
+            rgb_matrix_set_color(LED_L5, RGB_GREEN);
+            rgb_matrix_set_color(LED_L6, RGB_GREEN);
+            rgb_matrix_set_color(LED_L4, RGB_GREEN);
+						rgb_matrix_set_color(LED_CAPS, RGB_GREEN);
+						rgb_matrix_set_color(LED_R5, RGB_GREEN);
+            rgb_matrix_set_color(LED_R6, RGB_GREEN);
+            rgb_matrix_set_color(LED_R4, RGB_GREEN);
         }
 				if(!IS_HOST_LED_ON(USB_LED_NUM_LOCK)){
 					// Turn on numlock
@@ -155,6 +155,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 						rgb_matrix_set_color(LED_R2, RGB_WHITE);
             rgb_matrix_set_color(LED_R3, RGB_WHITE);
             rgb_matrix_set_color(LED_R4, RGB_WHITE);
+						rgb_matrix_set_color(LED_L2, RGB_WHITE);
+            rgb_matrix_set_color(LED_L3, RGB_WHITE);
+            rgb_matrix_set_color(LED_L4, RGB_WHITE);
             rgb_matrix_set_color(LED_LALT, RGB_WHITE); //FN key
             break;
         case 1:
@@ -166,6 +169,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             rgb_matrix_set_color(LED_R4, RGB_WHITE);
             rgb_matrix_set_color(LED_R5, RGB_WHITE);
             rgb_matrix_set_color(LED_R6, RGB_WHITE);
+						rgb_matrix_set_color(LED_L4, RGB_WHITE);
+            rgb_matrix_set_color(LED_L5, RGB_WHITE);
+            rgb_matrix_set_color(LED_L6, RGB_WHITE);
 						rgb_matrix_set_color(LED_FN, RGB_WHITE);
             break;
         default:
