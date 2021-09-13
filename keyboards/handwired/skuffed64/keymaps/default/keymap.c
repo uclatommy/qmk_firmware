@@ -113,9 +113,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 				}
 			}else{
 				if (clockwise) {
-					tap_code(KC_DOWN);
+					tap_code(KC_RIGHT);
 				} else {
-					tap_code(KC_UP);
+					tap_code(KC_LEFT);
 				}
 			}
 			break;
@@ -135,9 +135,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 				}
 			}else{
 				if (clockwise) {
-					tap_code(KC_RIGHT);
+					tap_code(KC_DOWN);
 				} else {
-					tap_code(KC_LEFT);
+					tap_code(KC_UP);
 				}
 			}
 			break;
