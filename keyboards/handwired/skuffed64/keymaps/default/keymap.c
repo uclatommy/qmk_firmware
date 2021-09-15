@@ -28,7 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_ESC,           KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_PGUP, KC_PGDN, KC_7,    KC_8,     KC_9,   KC_EQL,
       LCTL_T(KC_CAPS),  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_BSPC, KC_HOME, KC_END,  KC_4,    KC_5,     KC_6,   KC_MINS,
       KC_LSFT,          KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_LSFT, KC_ENT,                    KC_1,    KC_2,     KC_3,
-      KC_LALT,          MO(_FN2),                   KC_SPC,                             KC_RGUI, KC_MENU, MO(_FN1),                  KC_SLCK,          KC_0,    KC_DOT,           KC_ENT
+      KC_LALT,          MO(_FN2),                   KC_SPC,                             KC_RGUI, KC_RCTL, MO(_FN1),                  KC_SLCK,          KC_0,    KC_DOT,           KC_ENT
     ),
     [_FN1] = LAYOUT(
       KC_GRAVE,         _______,  KC_UP,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_F7,   KC_F8,    KC_F9,  KC_F11,
@@ -49,37 +49,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     mod_state = get_mods();
     switch (keycode) {
 
-    case KC_ESC:
-        // Detect the activation of only Left Alt
-        if ((mod_state & MOD_BIT(KC_LALT)) == MOD_BIT(KC_LALT)) {
-            if (record->event.pressed) {
-                // No need to register KC_LALT because it's already active.
-                // The Alt modifier will apply on this KC_TAB.
-                register_code(KC_TAB);
-            } else {
-                unregister_code(KC_TAB);
-            }
-            // Do not let QMK process the keycode further
-            return false;
-        }
-        // Else, let QMK process the KC_ESC keycode as usual
-        return true;
-
     case KC_BSPC:
         {
         // Initialize a boolean variable that keeps track
         // of the delete key status: registered or not?
         static bool delkey_registered;
         if (record->event.pressed) {
-            // Detect the activation of either shift keys
-            if (mod_state & MOD_MASK_SHIFT) {
-                // First temporarily canceling both shifts so that
-                // shift isn't applied to the KC_DEL keycode
-                del_mods(MOD_MASK_SHIFT);
+            // Detect the activation of either ctrl keys
+            if (mod_state & MOD_MASK_CTRL) {
+                // First temporarily canceling both ctrl so that
+                // ctrl isn't applied to the KC_DEL keycode
+                del_mods(MOD_MASK_CTRL);
                 register_code(KC_DEL);
                 // Update the boolean variable to reflect the status of KC_DEL
                 delkey_registered = true;
-                // Reapplying modifier state so that the held shift key(s)
+                // Reapplying modifier state so that the held ctrl key(s)
                 // still work even after having tapped the Backspace/Delete key.
                 set_mods(mod_state);
                 return false;
@@ -92,10 +76,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
         }
-        // Let QMK process the KC_BSPC keycode as usual outside of shift
+        // Let QMK process the KC_BSPC keycode as usual outside of ctrl
         return true;
       }
-
     }
     return true;
 };
