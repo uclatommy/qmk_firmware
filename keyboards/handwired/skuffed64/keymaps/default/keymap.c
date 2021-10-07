@@ -32,7 +32,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_FN1] = LAYOUT(
       KC_GRAVE,         _______,  KC_UP,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_F7,   KC_F8,    KC_F9,   KC_F11,
-      _______,          KC_LEFT,  KC_DOWN, KC_RIGHT,_______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,_______, _______, KC_BRK,  _______, _______, KC_F4,   KC_F5,    KC_F6,   KC_F12,
+      _______,          KC_LEFT,  KC_DOWN, KC_RIGHT,_______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,_______, _______, KC_DEL,  _______, KC_BRK,  KC_F4,   KC_F5,    KC_F6,   KC_F12,
       _______,          _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,                   KC_F1,   KC_F2,    KC_F3,
       _______,          _______,                    KC_TAB,                             _______, _______, _______,                   KC_MUTE,          KC_F10,            _______, _______
     ),
@@ -44,41 +44,98 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-uint8_t mod_state;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    mod_state = get_mods();
     switch (keycode) {
 
-    case KC_BSPC:
+    case KC_1:
         {
         // Initialize a boolean variable that keeps track
-        // of the delete key status: registered or not?
-        static bool delkey_registered;
+        // of the key status: registered or not?
+        static bool kc1_registered;
         if (record->event.pressed) {
-            // Detect the activation of either ctrl keys
-            if (mod_state & MOD_MASK_CTRL) {
-                // First temporarily canceling both ctrl so that
-                // ctrl isn't applied to the KC_DEL keycode
-                del_mods(MOD_MASK_CTRL);
-                register_code(KC_DEL);
-                // Update the boolean variable to reflect the status of KC_DEL
-                delkey_registered = true;
-                // Reapplying modifier state so that the held ctrl key(s)
-                // still work even after having tapped the Backspace/Delete key.
-                set_mods(mod_state);
+            // Detect the activation of scroll lock
+            if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
+                register_code(KC_LEFT);
+                // Update the boolean variable to reflect the status of KC_1
+                kc1_registered = true;
                 return false;
             }
-        } else { // on release of KC_BSPC
-            // In case KC_DEL is still being sent even after the release of KC_BSPC
-            if (delkey_registered) {
-                unregister_code(KC_DEL);
-                delkey_registered = false;
+        } else { // on release of KC_1
+            // In case KC_LEFT is still being sent even after the release of KC_1
+            if (kc1_registered) {
+                unregister_code(KC_LEFT);
+                kc1_registered = false;
                 return false;
             }
         }
-        // Let QMK process the KC_BSPC keycode as usual outside of ctrl
+        // Let QMK process the KC_1 keycode as usual outside of scroll lock
         return true;
       }
+
+      case KC_3:
+          {
+          // Initialize a boolean variable that keeps track
+          // of the key status: registered or not?
+          static bool kc3_registered;
+          if (record->event.pressed) {
+              // Detect the activation of scroll lock
+              if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
+                  register_code(KC_RIGHT);
+                  // Update the boolean variable to reflect the status of KC_3
+                  kc3_registered = true;
+                  return false;
+              }
+          } else { // on release of KC_3
+              // In case KC_RIGHT is still being sent even after the release of KC_3
+              if (kc3_registered) {
+                  unregister_code(KC_RIGHT);
+                  kc3_registered = false;
+                  return false;
+              }
+          }
+          // Let QMK process the KC_3 keycode as usual outside of scroll lock
+          return true;
+        }
+
+        case KC_5:
+            {
+            static bool kc5_registered;
+            if (record->event.pressed) {
+                // Detect the activation of scroll lock
+                if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
+                    register_code(KC_UP);
+                    kc5_registered = true;
+                    return false;
+                }
+            } else {
+                if (kc5_registered) {
+                    unregister_code(KC_UP);
+                    kc5_registered = false;
+                    return false;
+                }
+            }
+            return true;
+          }
+
+          case KC_2:
+              {
+              static bool kc2_registered;
+              if (record->event.pressed) {
+                  // Detect the activation of scroll lock
+                  if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
+                      register_code(KC_DOWN);
+                      kc2_registered = true;
+                      return false;
+                  }
+              } else {
+                  if (kc2_registered) {
+                      unregister_code(KC_DOWN);
+                      kc2_registered = false;
+                      return false;
+                  }
+              }
+              return true;
+            }
     }
     return true;
 };

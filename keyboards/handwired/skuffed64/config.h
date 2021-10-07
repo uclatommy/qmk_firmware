@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LED_CAPS_LOCK_PIN B5
 #define LED_SCROLL_LOCK_PIN B4
 #define LED_PIN_ON_STATE 1
-#define ENCODER_RESOLUTION 1
+#define ENCODER_RESOLUTION 2
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL*/
