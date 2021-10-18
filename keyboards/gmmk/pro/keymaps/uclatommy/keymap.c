@@ -141,11 +141,11 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             rgb_matrix_set_color(LED_R6, RGB_GREEN);
             rgb_matrix_set_color(LED_R4, RGB_GREEN);
         }
-				if(!IS_HOST_LED_ON(USB_LED_NUM_LOCK)){
+				// if(!IS_HOST_LED_ON(USB_LED_NUM_LOCK)){
 					// Turn on numlock
-					register_code(KC_NUMLOCK);
-      		unregister_code(KC_NUMLOCK);
-				}
+					// register_code(KC_NUMLOCK);
+      		// unregister_code(KC_NUMLOCK);
+				// }
         switch(get_highest_layer(layer_state)){  // special handling per layer
         case 2:  // on Fn layer select what the encoder does when pressed
 						for (uint8_t i=0; i<sizeof(LED_LIST_NUMPAD)/sizeof(LED_LIST_NUMPAD[0]); i++) {

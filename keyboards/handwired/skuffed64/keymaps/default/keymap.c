@@ -32,15 +32,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_FN1] = LAYOUT(
       KC_GRAVE,         _______,  KC_UP,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_F7,   KC_F8,    KC_F9,   KC_F11,
-      _______,          KC_LEFT,  KC_DOWN, KC_RIGHT,_______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,_______, _______, KC_DEL,  _______, KC_BRK,  KC_F4,   KC_F5,    KC_F6,   KC_F12,
+      _______,          KC_LEFT,  KC_DOWN, KC_RIGHT,_______, _______, _______, _______, _______, _______, _______, _______, KC_DEL,  _______, KC_BRK,  KC_F4,   KC_F5,    KC_F6,   KC_F12,
       _______,          _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,                   KC_F1,   KC_F2,    KC_F3,
       _______,          _______,                    KC_TAB,                             _______, _______, _______,                   KC_MUTE,          KC_F10,            _______, _______
     ),
     [_FN2] = LAYOUT(
-      KC_TAB,           _______,  KC_UP,   _______, _______, _______, _______, _______, _______, _______, _______, KC_9,    KC_0,    _______, _______, _______, _______, _______, _______,
-      _______,           KC_LEFT, KC_DOWN, KC_RIGHT,_______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,_______, _______, KC_BSLS, _______, _______, _______, KC_UP,   _______, _______,
-      _______,          _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,                   KC_LEFT, KC_DOWN, KC_RIGHT,
-      _______,          _______,                    KC_TAB,                             _______, _______, _______,                   _______,          KC_TAB,           _______, _______
+      KC_TAB,           _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_9,    KC_0,    _______,  _______, _______, _______, _______, _______,
+      _______,          _______,  _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,_______, _______, KC_BSLS, _______,  _______, _______, KC_UP,   _______, _______,
+      _______,          _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,                    KC_LEFT, KC_DOWN, KC_RIGHT,
+      _______,          _______,                    KC_TAB,                             _______, _______, _______,                   KC_NLCK,           KC_TAB,           _______, _______
     ),
 };
 
@@ -54,7 +54,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         static bool kc1_registered;
         if (record->event.pressed) {
             // Detect the activation of scroll lock
-            if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
+            if (IS_HOST_LED_ON(USB_LED_NUM_LOCK)) {
                 register_code(KC_LEFT);
                 // Update the boolean variable to reflect the status of KC_1
                 kc1_registered = true;
@@ -79,7 +79,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           static bool kc3_registered;
           if (record->event.pressed) {
               // Detect the activation of scroll lock
-              if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
+              if (IS_HOST_LED_ON(USB_LED_NUM_LOCK)) {
                   register_code(KC_RIGHT);
                   // Update the boolean variable to reflect the status of KC_3
                   kc3_registered = true;
@@ -102,7 +102,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             static bool kc5_registered;
             if (record->event.pressed) {
                 // Detect the activation of scroll lock
-                if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
+                if (IS_HOST_LED_ON(USB_LED_NUM_LOCK)) {
                     register_code(KC_UP);
                     kc5_registered = true;
                     return false;
@@ -122,7 +122,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               static bool kc2_registered;
               if (record->event.pressed) {
                   // Detect the activation of scroll lock
-                  if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)) {
+                  if (IS_HOST_LED_ON(USB_LED_NUM_LOCK)) {
                       register_code(KC_DOWN);
                       kc2_registered = true;
                       return false;
