@@ -10,6 +10,7 @@ MCU = at90usb1286
 #   ATmega32A    bootloadHID
 #   ATmega328P   USBasp
 BOOTLOADER = halfkay
+OLED_DRIVER = SSD1306
 
 # Build Options
 #   change yes to no to disable
@@ -29,3 +30,4 @@ RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
 MIDI_ENABLE = no            # MIDI support
 BLUETOOTH_ENABLE = no       # Enable Bluetooth with the Adafruit EZ-Key HID
 AUDIO_ENABLE = no           # Audio output on port C6
+OLED_ENABLE = yes
