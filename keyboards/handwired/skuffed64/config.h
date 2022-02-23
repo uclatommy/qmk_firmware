@@ -54,6 +54,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ENCODER_RESOLUTION 2
 #define UNUSED_PINS
 
+/* oled custom font */
+#define OLED_FONT_END 255
+#define OLED_FONT_H "gfxfont.c"
+
 /* COL2ROW, ROW2COL*/
 #define DIODE_DIRECTION COL2ROW
 

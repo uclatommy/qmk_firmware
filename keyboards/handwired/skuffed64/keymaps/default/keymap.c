@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include <bongo.h>
 
 // Defines names for use in layer keycodes and the keymap
 enum layer_names {
@@ -43,8 +44,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,          _______,                    KC_TAB,                             _______, _______, _______,                   KC_NLCK,           KC_TAB,           _______, _______
     ),
 };
-
+uint16_t oled_timer;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed){
+        oled_timer = timer_read();
+    }
     switch (keycode) {
 
     case KC_1:
@@ -186,31 +190,87 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 
 #ifdef OLED_ENABLE
-bool oled_task_user(void) {
-    // Host Keyboard Layer Status
-    oled_write_P(PSTR("Layer: "), false);
+bool oled_task_user(void)
+{
+  if (timer_elapsed(oled_timer) > OLED_TIMEOUT)
+  {
+    oled_off();
+    return false;
+  }
+  else
+  {
+    oled_on();
+  }
+  /*
+    static bool finished_timer = false;
+    if (!finished_timer && (timer_elapsed(startup_timer) < 3000)) {
+        render_logo();
+    } else {
+        if (!finished_timer) {
+            oled_clear();
+            finished_timer = true;
+        }*/
+        oled_set_cursor(3, 0);
+        render_cat();
+        oled_set_cursor(0, 0);
+        char string[10];
+        uint16_t m = get_current_wpm();
+        string[3] = '\0';
+        string[2] = '0' + m % 10;
+        string[1] = ( m /= 10) % 10 ? '0' + (m) % 10 : (m / 10) % 10 ? '0' : ' ';
+        string[0] =  m / 10 ? '0' + m / 10 : ' ';
+        oled_write_P(PSTR("WPM:"), false);
+        oled_write(string, false);
 
-    switch (get_highest_layer(layer_state)) {
-        case _BASE:
-            oled_write_P(PSTR("Base\n"), false);
-            break;
-        case _FN1:
-            oled_write_P(PSTR("FN 1\n"), false);
-            break;
-        case _FN2:
-            oled_write_P(PSTR("FN 2\n"), false);
-            break;
-        default:
-            // Or use the write_ln shortcut over adding '\n' to the end of your string
-            oled_write_ln_P(PSTR("Undefined"), false);
-    }
+        oled_set_cursor(0, 1);
+        // Host Keyboard LED Status
+        led_t led_state = host_keyboard_led_state();
+        oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR(""), false);
+        oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR(""), false);
+        oled_write_P(led_state.scroll_lock ? PSTR("SCR") : PSTR(""), false);
 
-    // Host Keyboard LED Status
-    led_t led_state = host_keyboard_led_state();
-    oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
-    oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
-    oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
+        oled_set_cursor(0, 2);
+        // Host Keyboard Layer Status
+        switch (get_highest_layer(layer_state)) {
+            case _BASE:
+                if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)){
+                  oled_write_P(PSTR("Scr U/D"), false);
+                } else {
+                  oled_write_P(PSTR("Dir U/D"), false);
+                }
+                break;
+            case _FN1:
+                oled_write_P(PSTR("Vol U/D"), false);
+                break;
+            case _FN2:
+                if (IS_HOST_LED_ON(USB_LED_SCROLL_LOCK)){
+                  oled_write_P(PSTR("Scr L/R"), false);
+                } else {
+                  oled_write_P(PSTR("Dir L/R"), false);
+                }
+                break;
+            default:
+                // Or use the write_ln shortcut over adding '\n' to the end of your string
+                oled_write_ln_P(PSTR("Undef"), false);
+        }
 
+        oled_set_cursor(0, 3);
+        // Host Keyboard Layer Status
+        switch (get_highest_layer(layer_state)) {
+            case _BASE:
+                oled_write_P(PSTR("Base"), false);
+                break;
+            case _FN1:
+                oled_write_P(PSTR("FN 1"), false);
+                break;
+            case _FN2:
+                oled_write_P(PSTR("FN 2"), false);
+                break;
+            default:
+                // Or use the write_ln shortcut over adding '\n' to the end of your string
+                oled_write_ln_P(PSTR("Undef"), false);
+        }
+    //}
     return false;
 }
 #endif
