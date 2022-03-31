@@ -26,10 +26,10 @@ enum layer_names {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_BASE] = LAYOUT(
-      KC_ESC,           KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_PGUP, KC_PGDN, KC_7,    KC_8,     KC_9,    KC_EQL,
-      LCTL_T(KC_CAPS),  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_BSPC, KC_HOME, KC_END,  KC_4,    KC_5,     KC_6,    KC_MINS,
+      KC_ESC,           KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_HOME, KC_PGUP, KC_7,    KC_8,     KC_9,    KC_EQL,
+      LCTL_T(KC_CAPS),  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_BSPC, KC_END,  KC_PGDN, KC_4,    KC_5,     KC_6,    KC_MINS,
       KC_LSFT,          KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_LSFT, KC_ENT,                    KC_1,    KC_2,     KC_3,
-      KC_LALT,          MO(_FN2),                   KC_SPC,                             KC_RGUI, KC_RCTL, MO(_FN1),                  KC_SLCK,          KC_0,              KC_DOT,  KC_ENT
+      KC_LALT,          TT(_FN2),                   KC_SPC,                             KC_RGUI, KC_RCTL, TT(_FN1),                  KC_SLCK,          KC_0,              KC_DOT,  KC_ENT
     ),
     [_FN1] = LAYOUT(
       KC_GRAVE,         _______,  KC_UP,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_F7,   KC_F8,    KC_F9,   KC_F11,
@@ -45,6 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 uint16_t oled_timer;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed){
         oled_timer = timer_read();
@@ -192,15 +193,11 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #ifdef OLED_ENABLE
 bool oled_task_user(void)
 {
-  if (timer_elapsed(oled_timer) > OLED_TIMEOUT)
-  {
-    oled_off();
-    return false;
-  }
-  else
-  {
-    oled_on();
-  }
+    if (timer_elapsed(oled_timer) > OLED_TIMEOUT)
+    {
+      oled_off();
+      return false;
+    }
   /*
     static bool finished_timer = false;
     if (!finished_timer && (timer_elapsed(startup_timer) < 3000)) {
